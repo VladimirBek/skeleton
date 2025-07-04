@@ -2,14 +2,12 @@ services:
   backoffice:
     build:
       context: ./
-    image: backoffice:latest
-    container_name: backoffice
     restart: always
     networks:
       - traefik-public
       - default
     depends_on:
-      backoffice_pg_db:
+      db:
         condition: service_healthy
         restart: true
     environment:
@@ -42,7 +40,7 @@ services:
       - traefik.http.routers.${STACK_NAME?Variable not set}-backoffice-http.rule=Host(`api.${DOMAIN?Variable not set}`)
       - traefik.http.routers.${STACK_NAME?Variable not set}-backoffice-http.entrypoints=http
 
-  backoffice_pg_db:
+  db:
     image: postgres:12
     restart: always
     healthcheck:
@@ -67,7 +65,7 @@ services:
       - traefik-public
       - default
     depends_on:
-      - backoffice_pg_db
+      - db
     # environment:
     #   - ADMINER_DESIGN=pepa-linha-dark
     labels:

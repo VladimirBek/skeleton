@@ -13,11 +13,11 @@ from src.shared.dependencies import get_settings
 
 __SETTINGS: Settings = get_settings()
 
-__SQLALCHEMY_DATABASE_URL = 'postgresql://{PG_DB_USER}:{PG_DB_PASS}@{PG_DB_HOST}:{PG_DB_PORT}/{PG_DB_NAME}'.format(
+__SQLALCHEMY_DATABASE_URL = 'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}'.format(
     **dict(__SETTINGS)
 )
 
-__SQLALCHEMY_DATABASE_URL_ASYNC = 'postgresql+asyncpg://{PG_DB_USER}:{PG_DB_PASS}@{PG_DB_HOST}:{PG_DB_PORT}/{PG_DB_NAME}'.format(
+__SQLALCHEMY_DATABASE_URL_ASYNC = 'postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}'.format(
     **dict(__SETTINGS)
 )
 

@@ -7,11 +7,11 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
 
     # DATABASE SETTINGS
-    PG_DB_HOST: str
-    PG_DB_USER: str
-    PG_DB_PORT: int
-    PG_DB_PASS: str
-    PG_DB_NAME: str
+    POSTGRES_SERVER: str
+    POSTGRES_PORT: int
+    POSTGRES_DB: str
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
 
     # DWH DATABASE SETTINGS
     DWH_DB_DRIVER: str
