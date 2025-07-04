@@ -1,0 +1,57 @@
+stages:          
+  - build
+  - test
+  - deploy-stage
+  - deploy-main
+
+  
+build-job:      
+  stage: build
+  image: docker
+  services:
+    - docker:dind
+  tags: 
+    - test-bo
+  script:
+    - docker build --no-cache -t backoffice .
+  rules: 
+    - if: '$CI_COMMIT_BRANCH == "stage" && $CI_PIPELINE_SOURCE == "push"'
+
+test-job:
+  stage: test
+  tags: 
+    - test-bo
+  script:
+    - docker run --rm -v $(pwd):/app backoffice ls /app
+  rules: 
+    - if: '$CI_COMMIT_BRANCH == "stage" && $CI_PIPELINE_SOURCE == "push"'
+   
+
+deploy-stage:
+  stage: deploy-stage
+  tags: 
+    - test-bo
+  script:
+    - docker stop backoffice
+    - docker rm backoffice
+    - docker compose -f docker-compose.yml --env-file .env.test up -d backoffice
+  rules: 
+    - if: '$CI_COMMIT_BRANCH == "stage" && $CI_PIPELINE_SOURCE == "push"'  
+
+deploy-main:
+  stage: deploy-main
+  tags:
+    - main-bo
+  script:
+    - docker stop backoffice
+    - docker rm backoffice
+    - docker build --no-cache -t backoffice .
+    - docker compose -f docker-compose.yml --env-file .env.prod up -d backoffice
+  rules: 
+    - if: '$CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"'
+
+
+
+
+
+

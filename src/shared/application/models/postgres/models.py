@@ -1,0 +1,7 @@
+"""
+    Sql alchemy entities
+"""
+
+import sqlalchemy.orm
+
+Base = sqlalchemy.orm.declarative_base()
